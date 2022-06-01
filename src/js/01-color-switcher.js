@@ -16,7 +16,7 @@ startBtn.addEventListener('click', () => {
     } else {
       isEnabled = false;
     }
-   startBtn.disabled = true; 
+    startBtn.disabled = true; 
     stopBtn.disabled = false;
 });
 
