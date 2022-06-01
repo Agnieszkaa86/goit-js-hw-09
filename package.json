@@ -10,21 +10,27 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Agnieszkaa86/goit-js-hw-09",
-  "keywords": [],
-  "author": "Agnieszka Janowska <agnieszka.janowska86@gmail.com>",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Agnieszkaa86/goit-js-hw-09/issues"
-  },
-  "dependencies": {
-    "modern-normalize": "^1.1.0"
+    "keywords": [],
+    "author": "Agnieszka Janowska <agnieszka.janowska86@gmail.com>",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/Agnieszkaa86/goit-js-hw-09/issues"
+    },
+    "dependencies": {
+      "modern-normalize": "^1.1.0"
+    },
+    "devDependencies": {
+      "@parcel/transformer-sass": "^2.5.0",
+      "parcel": "^2.5.0",
+      "parcel-reporter-clean-dist": "^1.0.4",
+      "posthtml-include": "^1.7.4"
+    },
+    "browserslist": "> 0.5%, last 2 versions, not dead"
   },
   "devDependencies": {
-    "@parcel/transformer-sass": "^2.5.0",
-    "parcel": "^2.5.0",
+    "@parcel/config-default": "^2.6.0",
+    "parcel": "^2.6.0",
     "parcel-reporter-clean-dist": "^1.0.4",
     "posthtml-include": "^1.7.4"
-  },
-  "browserslist": "> 0.5%, last 2 versions, not dead"
-}
+  }
 }
