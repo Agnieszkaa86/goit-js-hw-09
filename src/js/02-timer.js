@@ -1,37 +1,46 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+
 import Notiflix, { Notify } from 'notiflix';
 import 'notiflix/dist/notiflix-3.2.5.min.css';
 
 const dateTime = document.querySelector('#datetime-picker');
 const btnStart = document.querySelector('[data-start]');
+const dataDays = document.querySelector('[data-days]');
+const dataHours = document.querySelector('[data-hours]');
+const dataMinutes = document.querySelector('[data-minutes]');
+const dataSeconds = document.querySelector('[data-seconds]');
 
+
+let timer = null;
 btnStart.disabled = true;
 
-flatpickr(dateTime, {
+
+const options = {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    if (selectedDates[0] < new Date()) {
+    if (selectedDates[0] <= new Date()) {
+      btnStart.disabled = true;
       Notiflix.Notify.failure('Please choose a date in the future');
     } else {
-      btnStart.disabled = false;
-      Notiflix.Notify.success(
-        'Please press "START" to proceed'
-      );
+      Notiflix.Notify.success('Please press "START" to proceed');
     }
-  }
-});
+       btnStart.disabled = false;
+  },
+};
+flatpickr(dateTime, options);
 
-btnStart.addEventListener('click', () => {
-  setInterval(() => {
+  function appUpdate() {
+   timer = setInterval(() => {
+    btnStart.disabled = true;
     const currentTime = new Date().getTime();
-    const usersTime = new Date(dateTime.value).getTime();
-    const result = usersTime - currentTime;
-
-    // Remaining days
+    let usersTime = new Date(dateTime.value).getTime();
+     const result = usersTime - currentTime;
+     
+     // Remaining days
     const days = Math.floor(result / (1000 * 60 * 60 * 24));
     // Remaining hours
     const hours = Math.floor((result % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -40,28 +49,25 @@ btnStart.addEventListener('click', () => {
     // Remaining seconds
     const seconds = Math.floor((result % (1000 * 60)) / 1000);
 
-    document.querySelector('[data-days]').innerHTML =
-      days < 10 ? '0' + days : days;
-    document.querySelector('[data-hours]').innerHTML =
-      hours < 10 ? '0' + hours : hours;
-    document.querySelector('[data-minutes]').innerHTML =
-      minutes < 10 ? '0' + minutes : minutes;
-    document.querySelector('[data-seconds]').innerHTML =
-      seconds < 10 ? '0' + seconds : seconds;
+    dataDays.innerHTML = days < 10 ? '0' + days : days;
+    dataHours.innerHTML = hours < 10 ? '0' + hours : hours;
+    dataMinutes.innerHTML = minutes < 10 ? '0' + minutes : minutes;
+    dataSeconds.innerHTML = seconds < 10 ? '0' + seconds : seconds;
 
     
     if (result < 0) {
-      clearInterval(timerId);
-      document.querySelector('[data-days]').innerHTML = '00';
-      document.querySelector('[data-hours]').innerHTML = '00';
-      document.querySelector('[data-minutes]').innerHTML = '00';
-      document.querySelector('[data-seconds]').innerHTML = '00';
-      Notify.info ('Countdown stop!')
+      clearInterval(timer);
+      dataDays.innerHTML = '00';
+      dataHours.innerHTML = '00';
+      dataMinutes.innerHTML = '00';
+      dataSeconds.innerHTML = '00';
+      Notiflix.Notify.info ('Countdown stop!')
     }
   }, 1000);
-});
+};
+btnStart.addEventListener('click', appUpdate);
   
 
-flatpickr()
-setInterval(convertMs, 1000);
+
+
 
