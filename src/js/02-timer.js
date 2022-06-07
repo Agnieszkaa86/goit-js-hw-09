@@ -12,34 +12,35 @@ const dataMinutes = document.querySelector('[data-minutes]');
 const dataSeconds = document.querySelector('[data-seconds]');
 
 
-let timer = null;
+let timerId = null;
 btnStart.disabled = true;
 
-
-const options = {
+flatpickr('#datetime-picker', {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    if (selectedDates[0] <= new Date()) {
+  
+    if (selectedDates[0] < new Date()) {
       btnStart.disabled = true;
       Notiflix.Notify.failure('Please choose a date in the future');
     } else {
       Notiflix.Notify.success('Please press "START" to proceed');
     }
-       btnStart.disabled = false;
+    btnStart.disabled = false;
   },
-};
-flatpickr(dateTime, options);
+});
 
   function appUpdate() {
-   timer = setInterval(() => {
+   timerId = setInterval(() => {
     btnStart.disabled = true;
-    const currentTime = new Date().getTime();
-    let usersTime = new Date(dateTime.value).getTime();
+     const currentTime = new Date().getTime();
+     ////console.log(currentTime)
+     let usersTime = new Date(dateTime.value).getTime();
+    /// console.log(usersTime)
      const result = usersTime - currentTime;
-     
+     console.log(result)
      // Remaining days
     const days = Math.floor(result / (1000 * 60 * 60 * 24));
     // Remaining hours
@@ -56,7 +57,7 @@ flatpickr(dateTime, options);
 
     
     if (result < 0) {
-      clearInterval(timer);
+      clearInterval(timerId);
       dataDays.innerHTML = '00';
       dataHours.innerHTML = '00';
       dataMinutes.innerHTML = '00';
