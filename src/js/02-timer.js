@@ -4,12 +4,12 @@ import 'flatpickr/dist/flatpickr.min.css';
 import Notiflix, { Notify } from 'notiflix';
 import 'notiflix/dist/notiflix-3.2.5.min.css';
 
-const dateTime = document.querySelector('#datetime-picker');
-const btnStart = document.querySelector('[data-start]');
-const dataDays = document.querySelector('[data-days]');
-const dataHours = document.querySelector('[data-hours]');
-const dataMinutes = document.querySelector('[data-minutes]');
-const dataSeconds = document.querySelector('[data-seconds]');
+const dateTime = document.querySelector("#datetime-picker");
+const btnStart = document.querySelector("[data-start]");
+const dataDays = document.querySelector("[data-days]");
+const dataHours = document.querySelector("[data-hours]");
+const dataMinutes = document.querySelector("[data-minutes]");
+const dataSeconds = document.querySelector("[data-seconds]");
 
 
 let timerId = null;
@@ -21,15 +21,15 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    const selectedDate = selectedDates[0];
-    if (selectedDate < options.defaultDate) {
-      btnStart.disabled = true;
-      Notiflix.Notify.failure('Please choose a date in the future');
-      } else {
+  const selectedDate = selectedDates[0];
+    if (selectedDate > options.defaultDate.getTime()) {
+      btnStart.disabled = false;
       Notiflix.Notify.success('Please press "START" to proceed');
       dateTime.dataset.time = selectedDate.getTime();
-    }
-    btnStart.disabled = false;
+    } else {
+      Notiflix.Notify.failure('Please choose a date in the future');
+      btnStart.disabled = true; 
+   }
   },
 };
  flatpickr(dateTime, options);
@@ -37,10 +37,8 @@ const options = {
 function appUpdate() {
   timerId = setInterval(() => {
     btnStart.disabled = true;
-    const currentTime = new Date().getTime();
-    ////console.log(currentTime)
-    let usersTime = new Date(dateTime.value).getTime();
-    /// console.log(usersTime)
+    let currentTime = new Date().getTime();
+    let usersTime = Number(dateTime.dataset.time);
     const result = usersTime - currentTime;
     console.log(result);
     // Remaining days
