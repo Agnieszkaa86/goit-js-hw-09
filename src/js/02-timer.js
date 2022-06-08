@@ -15,54 +15,57 @@ const dataSeconds = document.querySelector('[data-seconds]');
 let timerId = null;
 btnStart.disabled = true;
 
-flatpickr('#datetime-picker', {
+const options = {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-  
-    if (selectedDates[0] < new Date()) {
+    const selectedDate = selectedDates[0];
+    if (selectedDate < options.defaultDate) {
       btnStart.disabled = true;
       Notiflix.Notify.failure('Please choose a date in the future');
-    } else {
+      } else {
       Notiflix.Notify.success('Please press "START" to proceed');
+      dateTime.dataset.time = selectedDate.getTime();
     }
     btnStart.disabled = false;
   },
-});
+};
+ flatpickr(dateTime, options);
 
-  function appUpdate() {
-   timerId = setInterval(() => {
+function appUpdate() {
+  timerId = setInterval(() => {
     btnStart.disabled = true;
-     const currentTime = new Date().getTime();
-     ////console.log(currentTime)
-     let usersTime = new Date(dateTime.value).getTime();
+    const currentTime = new Date().getTime();
+    ////console.log(currentTime)
+    let usersTime = new Date(dateTime.value).getTime();
     /// console.log(usersTime)
-     const result = usersTime - currentTime;
-     console.log(result)
-     // Remaining days
+    const result = usersTime - currentTime;
+    console.log(result);
+    // Remaining days
     const days = Math.floor(result / (1000 * 60 * 60 * 24));
     // Remaining hours
-    const hours = Math.floor((result % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const hours = Math.floor(
+      (result % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
     // Remaining minutes
     const minutes = Math.floor((result % (1000 * 60 * 60)) / (1000 * 60));
     // Remaining seconds
     const seconds = Math.floor((result % (1000 * 60)) / 1000);
-
+  
     dataDays.innerHTML = days < 10 ? '0' + days : days;
     dataHours.innerHTML = hours < 10 ? '0' + hours : hours;
     dataMinutes.innerHTML = minutes < 10 ? '0' + minutes : minutes;
     dataSeconds.innerHTML = seconds < 10 ? '0' + seconds : seconds;
 
-    
     if (result < 0) {
       clearInterval(timerId);
       dataDays.innerHTML = '00';
       dataHours.innerHTML = '00';
       dataMinutes.innerHTML = '00';
       dataSeconds.innerHTML = '00';
-      Notiflix.Notify.info ('Countdown stop!')
+      Notiflix.Notify.info('Countdown stop!');
     }
   }, 1000);
 };
