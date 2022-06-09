@@ -26,7 +26,7 @@ const options ={
     if (usersTime > new Date()) {
       btnStart.disabled = false;
     Notiflix.Notify.success('Please press "START" to proceed');
-      dateTime.dataset.time = usersTime.getTime();
+      dateTime.dataset.time = selectedDates[0].getTime();
     } else {
       Notiflix.Notify.failure('Please choose a date in the future'); 
     }
