@@ -15,14 +15,15 @@ const dataSeconds = document.querySelector("[data-seconds]");
 
 let timerId = null;
 btnStart.disabled = true;
-let usersTime;
+
+let usersTime = selectedDates[0];
 const options ={
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-   usersTime = selectedDates[0];
+   
     if (usersTime > new Date()) {
       btnStart.disabled = false;
     Notiflix.Notify.success('Please press "START" to proceed');
