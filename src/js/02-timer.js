@@ -29,7 +29,7 @@ const options ={
       dateTime.dataset.time = usersTime.getTime();
     } else {
       Notiflix.Notify.failure('Please choose a date in the future'); 
-   }
+    }
   },
 };
  flatpickr(dateTime, options);
